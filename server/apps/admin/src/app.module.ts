@@ -26,7 +26,9 @@ import * as nuid from 'nuid';
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+  ],
 })
 export class AppModule {
 }
