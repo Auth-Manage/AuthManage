@@ -19,6 +19,7 @@ async function bootstrap() {
     .setTitle('权限管理系统-后台管理API')
     .setDescription('供后台管理界面调用服务API')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api-docs', app, document);
