@@ -10,9 +10,9 @@ export class AllExceptionFilter implements ExceptionFilter {
     Logger.log('错误提示', ` ${exception}`);
     const errorResponse = {
       data: {
-        error: ` ${exception}`,
+        message: `${exception}`,
       }, // 获取全部的错误信息
-      message: '请求失败',
+      message:`${exception}`,
       code: 50000, // 自定义code
       url: request.originalUrl, // 错误的url地址
     };
