@@ -1,4 +1,5 @@
 import { getToken, removeToken, setToken } from '@/utils/auth'
+import api from '@/api/index'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
@@ -32,19 +33,19 @@ const mutations = {
 
 const actions = {
   // user login
-  login({ commit }, userInfo) {
-    const { username, password } = userInfo
-    console.log(username, password)
-    commit('SET_TOKEN', 'admin-token')
-    setToken('admin-token')
+  async login({ commit }, userInfo) {
+    const res = await api.user.login(userInfo)
+    commit('SET_TOKEN', res.token)
+    setToken(res.token)
   },
 
   // get user info
-  getInfo({ commit, state }) {
-    // const { name, avatar } = data
+  async getInfo({ commit, state }) {
+    const res = await api.sys.getInfo({})
+    const { username } = res
     const data = {
       roles: ['admin'],
-      name: 'admin',
+      name: username,
       avatar:
         'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
     }
