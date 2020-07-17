@@ -11,7 +11,7 @@ export type UserDocument = DocumentType<User>
 })
 export class User {
   @ApiProperty({ description: '用户名', example: 'user' })
-  @prop({required:true,unique:true})
+  @prop({ required: true, unique: true })
   username: string;
 
   @ApiProperty({ description: '密码', example: 'password' })

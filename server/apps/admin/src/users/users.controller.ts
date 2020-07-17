@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { Crud } from 'nestjs-mongoose-crud';
 import { User, UserDocument } from '@libs/db/model/user.model';
-import { ApiOperation, ApiProperty, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { InjectModel } from 'nestjs-typegoose';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { UsersService } from './users.service';
@@ -14,11 +14,12 @@ import { JwtService } from '@nestjs/jwt';
   model: User,
 })
 @ApiTags('用户')
+@ApiBearerAuth()
 @Controller('users')
 export class UsersController {
   constructor(
     private jwtService: JwtService,
-    @InjectModel(User) private readonly userModel: ReturnModelType<typeof User>,
+    @InjectModel(User) private readonly model: ReturnModelType<typeof User>,
     private readonly usersService: UsersService,
   ) {
   }
@@ -36,7 +37,7 @@ export class UsersController {
         message: '用户已经存在',
       };
     }
-    const newUser =await this.usersService.createUser(dto);
+    const newUser = await this.usersService.createUser(dto);
     return {
       result: true,
       data: newUser,
@@ -55,7 +56,6 @@ export class UsersController {
 
   @Get('user')
   @ApiOperation({ summary: '获取个人信息' })
-  @ApiBearerAuth()
   async user(@CurrentUser() user: UserDocument) {
     return user;
   }

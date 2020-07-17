@@ -13,7 +13,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       data: {
         error: message,
       }, // 获取全部的错误信息
-      message: '请求失败',
+      message: message,
       code: 50000, // 自定义code
       url: request.originalUrl, // 错误的url地址
     };

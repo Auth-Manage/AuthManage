@@ -24,6 +24,9 @@ nestjs-mongoose-crud：自动生成crud,前端查询时，可以提供分页查�
 [链接](https://github.com/topfullstack/nestjs-mongoose-crud)
 `/users?query={"where":{"username":"user1","age":{"$gt":18}},"sort":"-_id","limit":10,"page":2,"populate":"friends"}`
 
+`@Crud`使用时,`constructor`引入格式：`@InjectModel(XX) private readonly model`,名称一定是`model`
+
+
 @nestjs/config 配置环境变量所需要的包
 
 web项目：nuxt自定义本地端口，在package.json中添加`"config": { "nuxt": { "host": "127.0.0.1", "port": "7000" } }`
@@ -36,3 +39,7 @@ web项目：nuxt自定义本地端口，在package.json中添加`"config": { "nu
     foreignField: 'question',//外键,关联模型的字段
     justOne: false  // 只查询一条数据
 })`
+
+### 问题
+`[ CastError: Cast to ObjectId failed for value "users" at path "_id" for model
+ "User"]`：
