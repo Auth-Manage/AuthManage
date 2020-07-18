@@ -2,8 +2,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy, StrategyOptions } from 'passport-jwt';
 import { InjectModel } from 'nestjs-typegoose';
 import { User } from '@libs/db/model/user.model';
-import { mongoose, ReturnModelType } from '@typegoose/typegoose';
-
+import { ReturnModelType } from '@typegoose/typegoose';
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(@InjectModel(User) private userModel: ReturnModelType<typeof User>) {
@@ -14,7 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(id) {
-    console.log('jwt', id);
+    // console.log('jwt', id, id.length);
     const user = await this.userModel.findById(id);
     return user;
   }
