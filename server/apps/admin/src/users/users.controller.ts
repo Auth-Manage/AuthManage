@@ -59,4 +59,14 @@ export class UsersController {
   async user(@CurrentUser() user: UserDocument) {
     return user;
   }
+
+  @Get('getInfo')
+  @ApiOperation({ summary: '获取系统信息' })
+  async getInfo(@CurrentUser() user: UserDocument) {
+    const { username } = user;
+    return {
+      username: username,
+      roles: ['admin'],
+    };
+  }
 }
