@@ -4,7 +4,10 @@ import { AppService } from './app.service';
 import { CommonModule } from '@app/common';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './auth/users/users.module';
+import { RolesModule } from './auth/roles/roles.module';
+import { MenusModule } from './auth/menus/menus.module';
+import { AuthsModule } from './auth/auths/auths.module';
 import * as dayjs from 'dayjs';
 import * as nuid from 'nuid';
 
@@ -24,6 +27,9 @@ import * as nuid from 'nuid';
       }),
     }),
     UsersModule,
+    RolesModule,
+    MenusModule,
+    AuthsModule,
   ],
   controllers: [AppController],
   providers: [
