@@ -8,11 +8,12 @@ export class AllExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest();
 
     Logger.log('错误提示', ` ${exception}`);
+    console.log(exception);
     const errorResponse = {
       data: {
         message: `${exception}`,
       }, // 获取全部的错误信息
-      message:`${exception}`,
+      message: `${exception}`,
       code: 50000, // 自定义code
       url: request.originalUrl, // 错误的url地址
     };
