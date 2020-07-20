@@ -18,11 +18,11 @@ export class Menu {
 
   @ApiProperty({ description: '父菜单' })
   @prop({ ref: 'Menu' })
-  parent: Ref<Menu>;
+  parent: Ref<Menu>|null;
 
   @ApiProperty({ description: '序号' })
   @prop()
-  order: string;
+  order: number;
 
   @ApiProperty({ description: '描述' })
   @prop()

@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { Crud } from 'nestjs-mongoose-crud';
 import { User, UserDocument } from '@libs/db/model/user.model';
-import { ApiBearerAuth, ApiOperation, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { InjectModel } from 'nestjs-typegoose';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { UsersService } from './users.service';
@@ -26,7 +26,7 @@ export class UsersController {
 
   @Post('register')
   @NoAuth('register')
-  @ApiProperty({ description: '注册' })
+  @ApiOperation({ summary: '注册' })
   async register(@Body() dto: UserDto) {
     const { username, password } = dto;
     const user = await this.usersService.findUserByName(username);
@@ -58,5 +58,15 @@ export class UsersController {
   @ApiOperation({ summary: '获取个人信息' })
   async user(@CurrentUser() user: UserDocument) {
     return user;
+  }
+
+  @Get('getInfo')
+  @ApiOperation({ summary: '获取系统信息' })
+  async getInfo(@CurrentUser() user: UserDocument) {
+    const { username } = user;
+    return {
+      username: username,
+      roles: ['admin'],
+    };
   }
 }

@@ -58,7 +58,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import(/* webpackChunkName: "dashboard" */'@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
   }
@@ -66,24 +66,28 @@ export const constantRoutes = [
 
 export const asyncRoutes = [
   {
-    path: '/cm',
-    name: 'CM',
+    path: '/auth',
+    name: 'Auth',
     component: Layout,
-    redirect: '/cm/course',
-    meta: { title: '课程管理', icon: 'el-icon-s-help' },
+    redirect: '/auth/user',
+    meta: { title: '权限管理', icon: 'auth' },
     alwaysShow: true,
     children: [
       {
-        path: 'course',
-        name: 'Course',
-        component: () => import(/* webpackChunkName: "course" */ '@/views/courses/Course'),
-        meta: { title: '课程', icon: 'table' }
-      },
-      {
-        path: 'episode',
-        name: 'Episode',
-        component: () => import(/* webpackChunkName: "episode" */ '@/views/courses/Episode'),
-        meta: { title: '课时', icon: 'form' }
+        path: 'user',
+        name: 'User',
+        component: () => import(/* webpackChunkName: "auth-user" */ '@/views/auth/User'),
+        meta: { title: '用户管理', icon: 'user' }
+      }, {
+        path: 'role',
+        name: 'Role',
+        component: () => import(/* webpackChunkName: "auth-role" */ '@/views/auth/Role'),
+        meta: { title: '角色管理', icon: 'role' }
+      }, {
+        path: 'menu',
+        name: 'Menu',
+        component: () => import(/* webpackChunkName: "auth-menu" */ '@/views/auth/Menu'),
+        meta: { title: '菜单管理', icon: 'menu' }
       }
     ]
   },

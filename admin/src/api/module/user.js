@@ -10,5 +10,4 @@ export default {
   logout: function(params) {
     return request.post('users/logout/', params)
   }
-
 }
