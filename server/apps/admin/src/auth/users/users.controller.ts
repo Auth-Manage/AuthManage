@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { Crud } from 'nestjs-mongoose-crud';
 import { User, UserDocument } from '@libs/db/model/user.model';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -12,6 +12,9 @@ import { JwtService } from '@nestjs/jwt';
 
 @Crud({
   model: User,
+  routes: {
+    find: false,
+  },
 })
 @ApiTags('用户')
 @ApiBearerAuth()
@@ -67,6 +70,16 @@ export class UsersController {
     return {
       username: username,
       roles: ['admin'],
+    };
+  }
+
+  @Get('')
+  @ApiOperation({ summary: '查询用户信息' })
+  async getUsers(@Query() query) {
+    const users = await this.usersService.getUsers(query);
+    return {
+      result: true,
+      data: users,
     };
   }
 }

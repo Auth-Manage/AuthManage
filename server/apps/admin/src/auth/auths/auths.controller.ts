@@ -8,6 +8,4 @@ import { AuthsService } from './auths.service';
 export class AuthsController {
   constructor(private readonly authsService: AuthsService) {
   }
-
-
 }

@@ -169,12 +169,10 @@ export default {
       this.loading = true
       try {
         const res = await this.$api.common.get('users', {
-          query: {
-            where: { username: { $regex: this.queryForm.name }},
-            sort: this.sort,
-            page: this.page.currentPage,
-            limit: this.page.pageSize
-          }
+          username: this.queryForm.name,
+          sort: this.sort,
+          pageNum: this.page.currentPage,
+          pageSize: this.page.pageSize
         })
         this.page.total = res.total
         this.data = res.data

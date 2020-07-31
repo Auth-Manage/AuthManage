@@ -26,6 +26,17 @@ nestjs-mongoose-crud：自动生成crud,前端查询时，可以提供分页查�
 
 `@Crud`使用时,`constructor`引入格式：`@InjectModel(XX) private readonly model`,名称一定是`model`
 
+`
+@Crud({
+  model: Course,
+  routes: {
+    create: false,
+    update: false,
+    delete: false,
+  },
+})
+`
+
 
 @nestjs/config 配置环境变量所需要的包
 
@@ -39,5 +50,6 @@ web项目：nuxt自定义本地端口，在package.json中添加`"config": { "nu
     foreignField: 'question',//外键,关联模型的字段
     justOne: false  // 只查询一条数据
 })`
+
 
 ### 问题

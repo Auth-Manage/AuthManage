@@ -18,4 +18,20 @@ export class UsersService {
     const user = await this.userModel.create(userDto);
     return user;
   }
+
+  async getUsers(query: any) {
+    const { pageNum = 1, pageSize = 10, username, sort } = query;
+    const skipNum = (parseInt(pageNum) - 1) * parseInt(pageSize);
+    const condition = {
+      $and: [
+        { username: { $regex: username, $options: 'i' } },
+      ],
+    };
+    const total = await this.userModel.countDocuments(condition);
+    const users = await this.userModel.find(condition).sort(sort).skip(skipNum).limit(pageSize);
+    return {
+      total: total,
+      data: users,
+    };
+  }
 }
