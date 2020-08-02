@@ -1,5 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { Crud } from 'nestjs-mongoose-crud';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { User, UserDocument } from '@libs/db/model/user.model';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { InjectModel } from 'nestjs-typegoose';
@@ -10,12 +9,6 @@ import { UserDto } from './dto/user.dto';
 import { CurrentUser } from '@app/common/decorator/current-user.decorator';
 import { JwtService } from '@nestjs/jwt';
 
-@Crud({
-  model: User,
-  routes: {
-    find: false,
-  },
-})
 @ApiTags('用户')
 @ApiBearerAuth()
 @Controller('users')
@@ -77,9 +70,24 @@ export class UsersController {
   @ApiOperation({ summary: '查询用户信息' })
   async getUsers(@Query() query) {
     const users = await this.usersService.getUsers(query);
-    return {
-      result: true,
-      data: users,
-    };
+    return users;
+  }
+
+  @Post('')
+  @ApiOperation({ summary: '创建用户' })
+  async createUser(@Body() users) {
+    return await this.usersService.createUsers(users);
+  }
+
+  @Put(':id')
+  @ApiOperation({ summary: 'update' })
+  async updateUser(@Param('id') id, @Body() users) {
+    return await this.usersService.updateUsers(id, users);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'delete' })
+  async deleteUser(@Param('id') id, @Query() query) {
+    return await this.usersService.deleteUsers(id);
   }
 }

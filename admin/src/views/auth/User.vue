@@ -34,11 +34,21 @@
         <el-form-item label="用户名" prop="username">
           <el-input v-model="ruleForm.username" placeholder="请输入课程名称" />
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item v-if="!isEdit" label="密码" prop="password">
           <el-input v-model="ruleForm.password" type="password" auto-complete="off" />
         </el-form-item>
-        <el-form-item label="确认密码" prop="checkPass">
+        <el-form-item v-if="!isEdit" label="确认密码" prop="checkPass">
           <el-input v-model="ruleForm.checkPass" type="password" auto-complete="off" />
+        </el-form-item>
+        <el-form-item label="角色" prop="parent">
+          <el-select v-model="ruleForm.role" class="w-100" placeholder="请选择角色" clearable multiple>
+            <el-option
+              v-for="item in roleList"
+              :key="item._id"
+              :label="item.name"
+              :value="item._id"
+            />
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -104,6 +114,22 @@ export default {
             sortable: true
           },
           {
+            label: '角色',
+            prop: 'role',
+            overHidden: true,
+            formatter: (row, value, label, column) => {
+              if (value) {
+                const result = []
+                value.forEach(v => {
+                  result.push(v.name)
+                })
+                return result.join(',')
+              } else {
+                return ''
+              }
+            }
+          },
+          {
             label: '创建时间',
             prop: 'createdAt',
             overHidden: true,
@@ -125,7 +151,8 @@ export default {
       ruleForm: {
         username: '',
         password: '',
-        checkPass: ''
+        checkPass: '',
+        role: []
       },
       rules: {
         name: [
@@ -138,18 +165,21 @@ export default {
           { validator: validatePass2, trigger: 'blur' }
         ]
       },
-      sort: {}
+      sort: {},
+      roleList: []
     }
   },
   async created() {
     await this.query()
+    await this.getRoleList()
   },
   methods: {
     initForm() {
       this.ruleForm = {
         username: '',
         password: '',
-        checkPass: ''
+        checkPass: '',
+        role: []
       }
     },
     async search() {
@@ -182,6 +212,10 @@ export default {
         this.$message.error(this.$MakeMessage(e))
       }
     },
+    async getRoleList() {
+      const res = await this.$api.common.get('roles', {})
+      this.roleList = res.data
+    },
     sizeChange(val) {
       this.page.currentPage = 1
       this.page.pageSize = val
@@ -203,6 +237,13 @@ export default {
       this.initForm()
       this.ruleForm.username = row.username
       this.ruleForm['_id'] = row._id
+      if (row.role.length > 0) {
+        row.role.forEach(item => {
+          this.ruleForm.role.push(item._id)
+        })
+      } else {
+        this.ruleForm.role = []
+      }
     },
     remove(row) {
       this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {

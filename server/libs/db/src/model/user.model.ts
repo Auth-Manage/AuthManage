@@ -1,12 +1,14 @@
-import { DocumentType, modelOptions, prop } from '@typegoose/typegoose';
+import { DocumentType, modelOptions, prop, Ref } from '@typegoose/typegoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { hashSync } from 'bcryptjs';
+import { UserRole } from '@libs/db/model/userRole.model';
 
 export type UserDocument = DocumentType<User>
 
 @modelOptions({
   schemaOptions: {
     timestamps: true,
+    toJSON: { virtuals: true },
   },
 })
 export class User {

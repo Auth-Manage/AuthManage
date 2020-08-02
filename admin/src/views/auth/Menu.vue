@@ -38,7 +38,7 @@
           <el-input v-model="ruleForm.code" placeholder="请输入菜单编码" />
         </el-form-item>
         <el-form-item label="父菜单" prop="parent">
-          <el-select v-model="ruleForm.parent" class="w-100" placeholder="请输入父菜单">
+          <el-select v-model="ruleForm.parent" class="w-100" placeholder="请输入父菜单" clearable>
             <el-option
               v-for="item in menuList"
               :key="item._id"
@@ -259,14 +259,17 @@ export default {
       this.centerDialogVisible = false
     },
     save() {
-      this.$refs['ruleForm'].validate((valid) => {
+      this.$refs['ruleForm'].validate(async(valid) => {
         if (valid) {
-          if (this.isEdit) {
-            this.edit()
-          } else {
-            this.add()
+          if (this.ruleForm.parent === '') {
+            this.ruleForm.parent = null
           }
-          this.getMenuList()
+          if (this.isEdit) {
+            await this.edit()
+          } else {
+            await this.add()
+          }
+          await this.getMenuList()
         } else {
           return false
         }
